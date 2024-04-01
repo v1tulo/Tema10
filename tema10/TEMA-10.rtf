@@ -1,0 +1,221 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Calibri-Bold;}{\f1\fnil\fcharset0 Calibri;}{\f2\fnil\fcharset0 Arial-BoldMT;}}
+{\colortbl ;\red89\green52\blue148;\red0\green0\blue0;\red192\green192\blue192;\red0\green255\blue255;\red0\green77\blue187;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sl240\slmult1\qj\b\f0\fs32\lang22 TEMA 10 - Introdu\'e7\'e3o ao conceito POO e classes com PHP\par
+\par
+\b0\f1\fs22 Para muitos desenvolvedores o PHP, orienta\'e7\'e3o a objetos \'e9 um conceito que deixa medo, cheio de sintaxes complicadas. Vamos agora aprender todos os conceitos por tr\'e1s da \b\f0 programa\'e7\'e3o orientada a objetos \b0\f1 (POO), um estilo de codifica\'e7\'e3o onde a\'e7\'f5es relacionadas s\'e3o agrupadas em \ul classes para ajudar na cria\'e7\'e3o de c\'f3digos mais compactos e efetivos\ulnone . A linguagem de programa\'e7\'e3o Orientado ao Objeto al\'e9m de ser muito organizada trata-se de uma \ul linguagem segura e fortemente tipada, dando mais seguran\'e7a e deixando o PHP, mais usado nos dias de hoje\ulnone .\par
+\par
+\cf1\b\f2 10.1 \f0\fs28 Introdu\'e7\'e3o sobre POO.\par
+\cf2\b0\f1\fs22 Programa\'e7\'e3o orientado ao objeto \'e9 uma maneira de programar de forma organizada, segura \ul\b podendo reutilizar c\'f3digos\ulnone\b0 , muito f\'e1cil para trabalhar em equipe podendo usar todas as boas pr\'e1ticas de programa\'e7\'e3o, essa maneira de programar ou tamb\'e9m \ul\b conhecida como \cf0 arquitetura\ulnone\b0  n\'e3o \'e9 nova no ramo de desenvolvimento, foi desenvolvida praticamente junto com a procedural, como antigamente n\'e3o t\'ednhamos projetos gigantes como nos dias de hoje ent\'e3o a procedural sempre deu conta do recado, \highlight3\ul\b agora com projetos cada vez mais gigantes \'e9 necess\'e1rio programar em equipe, ai que a linguagem de POO vem ganhando mais mercado.\highlight0\ulnone\b0\par
+POO \'e9 intimidante para uma grande quantidade de desenvolvedores porque ela introduz uma sintaxe e, \'e0 primeira vista, parece ser bem mais complexa que a programa\'e7\'e3o procedural tamb\'e9m conhecida de estruturada. Portanto, se analisar bem, \ul POO \'e9 bem direta e, fundamentalmente, uma abordagem mais simples para programa\'e7\'e3o\ulnone .\par
+A linguagem PHP, come\'e7ou a ser organizada ou introduzida o POO, nos \ul anos de 2005\ulnone , quando houve uma grande mudan\'e7a no mercado de grandes projetos para WEB, foi ent\'e3o que o PHP POO, come\'e7ou a \ul\b ganhar mercado mundial\ulnone\b0 . Podemos \ul programar somente de forma POO no PHP ou de uma maneira h\'edbrida usando POO e estruturada\ulnone . N\'e3o \'e9 recomendado fazer esse tipo de programa\'e7\'e3o pelo fato da seguran\'e7a. A dica \'e9 se estamos programando em procedural termina em procedural, nunca \'e9 bom misturar.\par
+\par
+\cf1\b\f2 10.2 \f0\fs28 Conceito de classes e construtores.\par
+\cf2\b0\f1\fs22 Definimos \ul\b classe como sendo uma abstra\'e7\'e3o de um conjunto de objetos\ulnone\b0 , os quais s\'e3o agrupados por \ul\b possu\'edrem similaridade em termos de comportamento e caracter\'edsticas\ulnone\b0 . Sendo assim as \highlight3\ul\b propriedades ou os atributos de um objeto s\'e3o descritos a partir da defini\'e7\'e3o de uma classe\highlight0\ulnone\b0 .\par
+\ul\b Classe \'e9 uma entidade te\'f3rica\ulnone\b0 , ou seja, uma organiza\'e7\'e3o usada na POO, \ul\b ela n\'e3o existe fisicamente e n\'e3o ocupa espa\'e7o na mem\'f3ria\ulnone\b0 .\par
+Quando criamos um objeto numa determinada classe temos que instanciar o objeto criado para poder existir ele dentro do seu algoritmo.\par
+Para instanciar uma classe vamos usar um comando new. Veja um exemplo abaixo.\par
+\par
+\highlight4\b Produto.php\par
+\cf0\highlight0 ----------\par
+\cf5\b0 <?php\par
+\par
+class Produto \{\par
+    private $id;\par
+    private $produto;\par
+    private $valor;\par
+    private $imagem;\par
+\par
+    public function __construct($id, $produto, $valor, $imagem) \{\par
+        $this->id = $id;\par
+        $this->produto = $produto;\par
+        $this->valor = $valor;\par
+        $this->imagem = $imagem;\par
+    \}\par
+\par
+    // Getters\par
+    public function getId() \{\par
+        return $this->id;\par
+    \}\par
+\par
+    public function getproduto() \{\par
+        return $this->produto;\par
+    \}\par
+\par
+    public function getValor() \{\par
+        return $this->valor;\par
+    \}\par
+\par
+    public function getImagem() \{\par
+        return $this->imagem;\par
+    \}\par
+\par
+    // M\'e9todo est\'e1tico para recuperar todos os produtos do banco de dados\par
+\b     public static function getAllProducts($conn) \{\par
+        $sql = "SELECT * FROM produtos";\par
+        $stmt = $conn->query($sql);\par
+        $produtos = array();\par
+\par
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) \{\par
+            $produtos[] = new Produto($row['id'], $row['produto'], $row['valor'], $row['imagem']);\par
+        \}\par
+\par
+        return $produtos;\par
+    \}\par
+\b0\}\par
+\par
+?>\par
+\par
+\cf0\highlight4\b index.php\par
+\highlight0 ----------\par
+\cf5 <?php\par
+include 'includes/Produto.php';\par
+\par
+// Configura\'e7\'e3o do banco de dados\par
+$servername = "localhost";\par
+$port = 7306;\par
+$username = "root";\par
+$password = "";\par
+$dbname = "banco_de_dados";\par
+\par
+try \{\par
+    // Conex\'e3o com o banco de dados\par
+    $conn = new PDO("mysql:host=$servername;port=$port;dbname=$dbname", $username, $password);\par
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\par
+\par
+    // Recupera todos os produtos do banco de dados\par
+    $produtos = Produto::getAllProducts($conn);\par
+\} catch(PDOException $e) \{\par
+    echo "Erro na conex\'e3o com o banco de dados: " . $e->getMessage();\par
+\}\par
+?>\par
+\par
+<!DOCTYPE html>\par
+<html lang="pt-br">\par
+<head>\par
+    <meta charset="UTF-8">\par
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\par
+    <title>Lista de Produtos</title>\par
+    <link rel="stylesheet" href="css/style.css">\par
+</head>\par
+<body>\par
+    <div class="container">\par
+        <h1>Lista de Produtos</h1>\par
+        <div class="produtos">\par
+            <?php foreach ($produtos as $produto): ?>\par
+                <div class="produto">\par
+                    <img src="uploads/<?php echo $produto->getImagem(); ?>" alt="<?php echo $produto->getProduto(); ?>">\par
+                    <h2><?php echo $produto->getProduto(); ?></h2>\par
+                    <p>R$ <?php echo number_format($produto->getValor(), 2, ',', '.'); ?></p>\par
+\tab\tab\tab\tab\tab <p><?php echo $produto->getId(); ?></p>\par
+                </div>\par
+            <?php endforeach; ?>\par
+        </div>\par
+    </div>\par
+</body>\par
+</html>\par
+\b0\par
+\cf0\highlight4\b style.css\par
+\highlight0 ----------\par
+\cf5 .container \{\par
+    max-width: 800px;\par
+    margin: 0 auto;\par
+    padding: 20px;\par
+\}\par
+\par
+.produtos \{\par
+    display: flex;\par
+    flex-wrap: wrap;\par
+    justify-content: space-around;\par
+\}\par
+\par
+.produto \{\par
+    width: 200px;\par
+    margin: 10px;\par
+    text-align: center;\par
+    border: 1px solid #ddd;\par
+    border-radius: 5px;\par
+    padding: 10px;\par
+    background-color: #fff;\par
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\par
+\}\par
+\par
+.produto img \{\par
+    width: 100%;\par
+    height: auto;\par
+    border-radius: 5px;\par
+\}\par
+\par
+.produto h2 \{\par
+    margin-top: 10px;\par
+    font-size: 18px;\par
+\}\par
+\par
+.produto p \{\par
+    margin-top: 5px;\par
+    font-size: 16px;\par
+    color: #666;\par
+\}\par
+\b0\par
+\cf0 Vari\'e1vel produtos est\'e1 sendo instanciada de uma classe, dentro desse arquivo se torna um objeto.\par
+A vari\'e1vel do tipo objeto $produtos[0] est\'e1 sendo atribu\'edda ao primeiro produto da lista. O construtor define o valor da densidade logo na cria\'e7\'e3o do objeto. Sendo fundamental para a parte de visualiza\'e7\'e3o dos arquivos dentro da POO.\par
+\par
+\cf2 Um dos pilares da orienta\'e7\'e3o a objetos \'e9 evitar que classes tenham acesso a um c\'f3digo que n\'e3o tenha a ver com sua estrutura m\'e3e. Imagine a classe m\'e3e, que tem volume e consequentemente densidade. Se alterarmos a massa de um corpo sem alterarmos a densidade, criamos uma inconsist\'eancia dentro da classe. Logo esse \'e9 um caso em que n\'e3o podemos permitir livre acesso a esses campos.\par
+\par
+\cf1\b\f2 10.3 \f0\fs28 Visibilidade de classes e subclasses.\par
+\cf2\b0\f1\fs22 A visibilidade de uma classe e das vari\'e1veis \'e9 fundamental na programa\'e7\'e3o Orientado ao Objeto, sendo a vis\'e3o para as outras classes e arquivos dentro dessa organiza\'e7\'e3o.\par
+\par
+Tipos de visibilidade de vari\'e1vel e classes\par
+\b\f0\par
+Public\par
+\b0\f1 Public todos os arquivos, vari\'e1veis e classes conseguem visualizar sendo f\'e1cil acesso para todos.\par
+\par
+\b\f0 Private\par
+\b0\f1 Private somente a classe e vari\'e1vel no local onde foi criado consegue visualizar.\par
+\par
+\b\f0 Protect\par
+\b0\f1 Protected \'e9 pra quando voc\'ea n\'e3o quer deixar um atributo public, livre para todos, somente, voc\'ea quer compartilhar ele com as subclasses.\par
+\par
+\highlight4\b RESUMO:\par
+\highlight0\b0\par
+\cf0 A programa\'e7\'e3o orientada a objetos (POO) \'e9 uma abordagem fundamental na programa\'e7\'e3o moderna, e quando aplicada em conjunto com PHP, oferece uma maneira eficaz de organizar e estruturar c\'f3digo. Neste contexto, as classes desempenham um papel crucial, pois elas s\'e3o os blocos de constru\'e7\'e3o fundamentais da POO. Este resumo ir\'e1 explorar uma introdu\'e7\'e3o ao conceito de POO e como criar classes com PHP, com \'eanfase nas habilidades de compreender o que s\'e3o bancos de dados e como criar a conex\'e3o do banco de dados com o PHP.\par
+A POO \'e9 uma t\'e9cnica de programa\'e7\'e3o que se baseia no conceito de objetos, que s\'e3o inst\'e2ncias de classes. \highlight3\ul\b Classes s\'e3o modelos que definem propriedades e m\'e9todos que os objetos podem ter\highlight0\ulnone\b0 . No contexto do PHP, \highlight3\ul\b uma classe \'e9 definida usando a palavra-chave "class", e ela encapsula dados e comportamentos relacionados\highlight0\ulnone\b0 . Isso promove a reutiliza\'e7\'e3o de c\'f3digo e a organiza\'e7\'e3o l\'f3gica de funcionalidades.\par
+Uma parte essencial do desenvolvimento web \'e9 a intera\'e7\'e3o com bancos de dados, que armazenam e gerenciam informa\'e7\'f5es. Compreender o que s\'e3o bancos de dados \'e9 crucial para muitas aplica\'e7\'f5es, pois eles permitem armazenar e recuperar dados de forma eficiente. No PHP, \'e9 poss\'edvel conectar-se a bancos de dados usando extens\'f5es espec\'edficas, como \highlight3\ul\b MySQLi ou PDO\highlight0\ulnone\b0 . Essas extens\'f5es fornecem funcionalidades para estabelecer conex\'f5es seguras e eficazes com os bancos\par
+de dados.\par
+A conex\'e3o do banco de dados com o PHP \'e9 um processo cr\'edtico em muitos projetos. Para criar essa conex\'e3o, voc\'ea precisa fornecer informa\'e7\'f5es \ul\b como o host, o nome do banco de dados, o nome de usu\'e1rio e a senha\ulnone\b0 . Uma vez estabelecida a conex\'e3o, o PHP pode enviar consultas SQL ao banco de dados para inserir, recuperar, atualizar ou excluir dados. Isso \'e9 essencial para criar aplica\'e7\'f5es din\'e2micas que respondam \'e0s necessidades dos usu\'e1rios.\par
+Em resumo, a programa\'e7\'e3o orientada a objetos com PHP \'e9 uma t\'e9cnica poderosa para organizar e estruturar c\'f3digos. As classes desempenham um papel fundamental nesse processo, encapsulando dados e comportamentos relacionados. Al\'e9m disso, a compreens\'e3o de bancos de dados e a habilidade de criar conex\'f5es seguras com o PHP s\'e3o essenciais para criar aplica\'e7\'f5es web din\'e2micas e interativas que podem armazenar e recuperar informa\'e7\'f5es de maneira eficiente.\par
+\par
+\highlight4\b ATIVIDADES:\par
+\highlight0\b0 1- O que \'e9 Programa\'e7\'e3o Orientada a Objetos (POO) e como ela se relaciona com a linguagem de programa\'e7\'e3o PHP?\par
+2 - Qual \'e9 a import\'e2ncia das classes no contexto da POO em PHP e como elas s\'e3o definidas?\par
+3 - Quais s\'e3o os princ\'edpios fundamentais da POO, e como eles podem ser aplicados em PHP?\par
+4 - Como voc\'ea cria uma inst\'e2ncia de uma classe em PHP e quais s\'e3o os conceitos-chave envolvidos nesse processo?\par
+5 - Quais s\'e3o os acessos (ou modificadores) de visibilidade em PHP e como eles afetam a encapsula\'e7\'e3o de dados em uma classe?\par
+6 - Qual \'e9 a diferen\'e7a entre uma classe abstrata e uma classe concreta em PHP, e quando voc\'ea deve us\'e1-las?\par
+7 - Explique o conceito de heran\'e7a em POO com PHP e como ele pode ser usado para reutilizar c\'f3digo.\par
+8 - O que s\'e3o interfaces em PHP e como elas podem ser \'fateis na implementa\'e7\'e3o de m\'faltiplas heran\'e7as?\par
+9 - Como a POO em PHP pode facilitar a organiza\'e7\'e3o e a manuten\'e7\'e3o de projetos de software complexos?\par
+10 - Como voc\'ea pode encapsular a l\'f3gica de conex\'e3o a um banco de dados dentro de uma classe em PHP e por que isso \'e9 importante?\par
+\par
+\cf5\b 1. A Programa\'e7\'e3o Orientada a Objetos (POO) \'e9 um paradigma de programa\'e7\'e3o que se baseia no conceito de objetos, os quais s\'e3o inst\'e2ncias de classes. Ela se relaciona com a linguagem de programa\'e7\'e3o PHP, pois o PHP suporta a programa\'e7\'e3o orientada a objetos desde a vers\'e3o 5, introduzindo recursos como classes, heran\'e7a, encapsulamento e polimorfismo.\par
+\par
+2. As classes s\'e3o de extrema import\'e2ncia no contexto da POO em PHP, pois elas servem como modelos que definem propriedades e m\'e9todos que os objetos podem ter. As classes s\'e3o definidas utilizando a palavra-chave `class` seguida pelo nome da classe e seu conte\'fado entre chaves `\{ \}`, onde s\'e3o encapsulados os dados e comportamentos relacionados.\par
+\par
+3. Os princ\'edpios fundamentais da POO, como encapsulamento, heran\'e7a, polimorfismo e abstra\'e7\'e3o, podem ser aplicados em PHP da mesma forma que em outras linguagens orientadas a objetos. O encapsulamento \'e9 alcan\'e7ado atrav\'e9s do uso de modificadores de visibilidade, enquanto a heran\'e7a \'e9 implementada usando a palavra-chave `extends`. O polimorfismo \'e9 suportado por meio de m\'e9todos com o mesmo nome em classes diferentes, e a abstra\'e7\'e3o \'e9 realizada atrav\'e9s da defini\'e7\'e3o de classes abstratas e interfaces.\par
+\par
+4. Para criar uma inst\'e2ncia de uma classe em PHP, voc\'ea utiliza a palavra-chave `new` seguida do nome da classe e dos par\'eanteses. Esse processo envolve a aloca\'e7\'e3o de mem\'f3ria para o objeto e a execu\'e7\'e3o do construtor da classe, se existir. Os conceitos-chave envolvidos nesse processo incluem construtores, m\'e9todos, propriedades e inst\'e2ncia de objetos.\par
+\par
+5. Os modificadores de visibilidade em PHP afetam a encapsula\'e7\'e3o de dados em uma classe controlando o acesso aos seus membros. Os modificadores de visibilidade s\'e3o `public`, `private` e `protected`. O modificador `public` permite o acesso de qualquer lugar, o `private` restringe o acesso somente \'e0 pr\'f3pria classe, e o `protected` permite acesso \'e0s classes derivadas (subclasses).\par
+\par
+6. Uma classe abstrata em PHP \'e9 uma classe que n\'e3o pode ser instanciada diretamente, mas pode conter m\'e9todos abstratos, enquanto uma classe concreta \'e9 uma classe que pode ser instanciada diretamente e implementa todos os seus m\'e9todos. As classes abstratas s\'e3o usadas quando voc\'ea deseja fornecer uma implementa\'e7\'e3o parcial de uma classe e deixar a implementa\'e7\'e3o espec\'edfica para suas subclasses.\par
+\par
+7. A heran\'e7a em POO com PHP permite que uma classe (subclasse) herde atributos e m\'e9todos de outra classe (superclasse). Isso facilita a reutiliza\'e7\'e3o de c\'f3digo, promovendo a modularidade e a extensibilidade. Para herdar de uma classe em PHP, voc\'ea utiliza a palavra-chave `extends`.\par
+\par
+8. As interfaces em PHP s\'e3o utilizadas para definir um conjunto de m\'e9todos que uma classe deve implementar. Elas podem ser \'fateis na implementa\'e7\'e3o de m\'faltiplas heran\'e7as, pois uma classe pode implementar v\'e1rias interfaces. Isso permite que voc\'ea defina contratos para classes que podem ter comportamentos diferentes.\par
+\par
+9. A POO em PHP pode facilitar a organiza\'e7\'e3o e manuten\'e7\'e3o de projetos de software complexos ao promover a reutiliza\'e7\'e3o de c\'f3digo, modularidade, encapsulamento e abstra\'e7\'e3o. Com a orienta\'e7\'e3o a objetos, \'e9 poss\'edvel organizar o c\'f3digo de forma mais eficiente, reduzir a duplica\'e7\'e3o e tornar o c\'f3digo mais f\'e1cil de entender e dar manuten\'e7\'e3o.\par
+\par
+10. Voc\'ea pode encapsular a l\'f3gica de conex\'e3o a um banco de dados dentro de uma classe em PHP criando m\'e9todos espec\'edficos para lidar com essa conex\'e3o, como m\'e9todos para estabelecer conex\'e3o, executar consultas SQL, recuperar resultados, etc. Isso \'e9 importante para separar as preocupa\'e7\'f5es e tornar o c\'f3digo mais organizado e f\'e1cil de dar manuten\'e7\'e3o, al\'e9m de promover a reutiliza\'e7\'e3o de c\'f3digo.\highlight4\par
+\highlight0\b0\par
+}
+ 
